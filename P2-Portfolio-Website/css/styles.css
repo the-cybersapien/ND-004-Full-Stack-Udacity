@@ -1,0 +1,69 @@
+body {
+    background-color: #eeeeee;
+}
+
+div {
+    align-items: center;
+    align-content: center;
+}
+
+div > img {
+    display: block;
+    margin: auto;
+}
+
+header {
+    padding: 20px 0 10px 0;
+    border-bottom: 5px solid #eee;
+}
+
+main {
+    padding: 10px 0 0 0;
+}
+
+.img-responsive {
+    width: 100%;
+    height: auto;
+}
+
+.img-logo {
+    max-width: 96px;
+}
+
+.header-Intro {
+    height: 100%;
+    display: block;
+    vertical-align: middle;
+}
+/* Media based CSS to for different formatting at different sized screens */
+@media (max-width: 991px) {
+    .header-Intro {
+        text-align: center;
+    }
+}
+@media (min-width: 992px) {
+    .header-Intro {
+        text-align: right;
+    }
+}
+
+.kumar-font {
+    font-family: 'Kumar One', cursive;
+    color: #212121;
+}
+
+.roboto-font {
+    font-family: 'Roboto Condensed', sans-serif;
+    color: #757575;
+}
+
+.work-card {
+    text-align: center;
+    box-shadow: 4px 4px 8px 0 rgba(0,0,0, 0.2);
+    background-color: #fff;
+    border-radius: 15px 15px 0 0;
+}
+
+.work-card > img {
+    border-radius: 15px 15px 0 0;
+}
