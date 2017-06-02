@@ -1,0 +1,23 @@
+{% extends "main.html" %}
+{% block content %}
+    {% include "header.html" %}
+
+    <div class="container">
+    <div class="row">
+        {% for qoute in qoutes %}
+            <div class="col s12 l4">
+            <div class="card grey lighten-2">
+                <div class="card-content black-text">
+                    <span class="card-title"><strong>{{ qoute.title }}</strong></span>
+                    <p class="text">{{ qoute.content }}</p>
+                </div>
+                <div class="card-action">
+                    <span> -{{ qoute.author.name }}</span>
+                    <span class="right"> -{{ qoute.source.name }}</span>
+                </div>
+            </div>
+            </div>
+        {% endfor %}
+    </div>
+    </div>
+{% endblock %}

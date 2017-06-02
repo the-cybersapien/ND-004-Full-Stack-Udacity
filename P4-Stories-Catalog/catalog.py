@@ -52,6 +52,14 @@ def qouteJSON(q_id):
     return jsonify(Qoute=qoute.serialize)
 
 
+#################################
+#          HTML end points      #
+#################################
+@app.route('/')
+@app.route('/qoutes')
+def allQoutes():
+    qoutes = session.query(Quote).all()
+    return render_template('allQoutes.html', qoutes=qoutes)
 
 if __name__ == '__main__':
     app.secret_key = 'super_secret_key'
