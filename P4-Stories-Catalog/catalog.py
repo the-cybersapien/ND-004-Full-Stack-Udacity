@@ -3,9 +3,25 @@ from flask import render_template
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from database_setup import Base, Source, Quote
+from database_setup import Base, Source, Quote, User
+
+from flask import session as login_session
+import random, string
+
+from oauth2client.client import flow_from_clientsecrets
+from oauth2client.client import FlowExchangeError
+import httplib2
+import json
+from flask import make_response
+import requests
 
 app = Flask(__name__)
+
+# G-Plus Client ID for the Application
+CLIENT_ID = json.loads(
+    open('client_secrets.json', 'r').read())['web']['client_id']
+
+APP_NAME = 'Quotes for Fun'
 
 # Create session and connect to Database
 engine = create_engine('sqlite:///QuotesDatabase.db')
@@ -14,10 +30,40 @@ DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
 
-#################################
-#       JSON return points      #
-#################################
+"""
+    User Helper Functions
+"""
+def createUser(login_session):
+    newUser = User(name=login_session['username'], email=login_session['email'], picture_link=login_session['picture'])
+    session.add(newUser)
+    session.commit()
+    user = session.query(User).filter_by(email=login_session['email']).one()
+    return user.id
 
+def getUserInfo(user_id):
+    user = session.query(User).filter_by(id=user_id).one()
+    return user
+
+def getUserID(email):
+    try:
+        user = session.query(User).filter_by(email=email).one()
+        return user.id
+    except:
+        return None
+
+"""
+    authentication end points for Google Plus oAuth2
+"""
+@app.route('/gconnect', methods=['POST'])
+def gconnect():
+    # Validate the state token
+    if request.args.get('state') != login_session['state']:
+        
+
+
+"""
+    JSON end-points for the Application
+"""
 # JSON page for all sources
 @app.route('/sources/JSON')
 def sourcesJSON():
