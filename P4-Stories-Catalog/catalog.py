@@ -8,7 +8,7 @@ from database_setup import Base, Source, Quote
 app = Flask(__name__)
 
 # Create session and connect to Database
-engine = create_engine('sqlite:///QoutesDatabase.db')
+engine = create_engine('sqlite:///QuotesDatabase.db')
 Base.metadata.bind = engine
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
@@ -32,46 +32,46 @@ def sourceJSON(src_id):
     return jsonify(source.serialize)
 
 
-# JSON for all qoutes
-@app.route('/qoutes/JSON')
-def qoutesJSON():
-    qoutes = session.query(Quote).all()
-    return jsonify(Qoutes=[qoute.serialize for qoute in qoutes])
+# JSON for all quotes
+@app.route('/quotes/JSON')
+def quotesJSON():
+    quotes = session.query(Quote).all()
+    return jsonify(quotes=[quote.serialize for quote in quotes])
 
 
-# JSON for qoutes from a specific source
-@app.route('/sources/<int:src_id>/qoutes/JSON')
-def qoutesFromSource(src_id):
-    qoutes = session.query(Quote).filter_by(source_id=src_id).all()
+# JSON for quotes from a specific source
+@app.route('/sources/<int:src_id>/quotes/JSON')
+def quotesFromSource(src_id):
+    quotes = session.query(Quote).filter_by(source_id=src_id).all()
     source = session.query(Source).filter_by(id=src_id).one()
-    return jsonify(Source=source.serialize, Qoutes=[q.serialize_without_source for q in qoutes])
+    return jsonify(Source=source.serialize, quotes=[q.serialize_without_source for q in quotes])
 
 
-# JSON for a specific qoute
-@app.route('/qoutes/<int:q_id>/JSON')
-def qouteJSON(q_id):
-    qoute = session.query(Quote).filter_by(id=q_id).one()
-    return jsonify(Qoute=qoute.serialize)
+# JSON for a specific quote
+@app.route('/quotes/<int:q_id>/JSON')
+def quoteJSON(q_id):
+    quote = session.query(Quote).filter_by(id=q_id).one()
+    return jsonify(Quote=quote.serialize)
 
 
 #################################
 #          HTML end points      #
 #################################
 @app.route('/')
-@app.route('/qoutes')
-def allQoutes():
-    qoutes = session.query(Quote).all()
+@app.route('/quotes')
+def all_quotes():
+    quotes = session.query(Quote).all()
     sources = session.query(Source).all()
-    return render_template('qoutes.html', qoutes=qoutes, sources=sources)
+    return render_template('quotes.html', quotes=quotes, sources=sources)
 
 
-@app.route('/source/<int:src_id>/qoutes')
+@app.route('/source/<int:src_id>/quotes')
 @app.route('/source/<int:src_id>')
-def qoutesForSource(src_id):
+def quotes_for_source(src_id):
     source = session.query(Source).filter_by(id=src_id).one()
     sources = session.query(Source).all()
-    qoutes = session.query(Quote).filter_by(source_id=src_id).all()
-    return render_template('qoutes.html', qoutes=qoutes, source=source, sources=sources)
+    quotes = session.query(Quote).filter_by(source_id=src_id).all()
+    return render_template('quotes.html', quotes=quotes, source=source, sources=sources)
 
 
 @app.route('/source/new', methods=['GET', 'POST'])
@@ -81,10 +81,26 @@ def newSource():
         session.add(newSRC)
         session.commit()
         flash('New source %s Added Successfully!' % newSRC.name)
-        return redirect(url_for('allQoutes'))
+        return redirect(url_for('all_quotes'))
     else:
         sources = session.query(Source).all()
         return render_template('newSource.html', sources=sources)
+
+
+@app.route('/quote/new', methods=['GET', 'POST'])
+def new_quote():
+    if request.method == 'POST':
+        newQt = Quote(title=request.form['q_title'],
+                      content=request.form['q_content'],
+                      source_id=request.form['src_id'])
+        session.add(newQt)
+        session.commit()
+        flash('New Quote %s Added Successfully!' % newQt.title)
+        return redirect(url_for('all_quotes'))
+    else:
+        sources = session.query(Source).all()
+        return render_template('newQuote.html', sources=sources)
+
 
 if __name__ == '__main__':
     app.secret_key = 'super_secret_key'

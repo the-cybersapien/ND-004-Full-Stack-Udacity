@@ -58,7 +58,7 @@ class Quote(Base):
     author_id = Column(Integer, ForeignKey('user.id'))
     source_id = Column(Integer, ForeignKey('source.id'))
     date = Column(DateTime(timezone=True), server_default=func.now(), server_onupdate=func.now())
-    # Adding cascade delete since the qoutes are defined by their author and source
+    # Adding cascade delete since the quotes are defined by their author and source
     author = relationship(User, cascade='delete')
     source = relationship(Source, cascade='delete')
 
@@ -86,5 +86,5 @@ class Quote(Base):
         }
 
 
-engine = create_engine('sqlite:///QoutesDatabase.db')
+engine = create_engine('sqlite:///QuotesDatabase.db')
 Base.metadata.create_all(engine)

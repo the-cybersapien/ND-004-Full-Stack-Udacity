@@ -3,34 +3,42 @@
         <nav class="teal darken-1">
             <div class="nav-wrapper">
                 <div class="container">
-                    <a href="{{ url_for('allQoutes')}}" class="brand-logo">
+                    <a href="{{ url_for('all_quotes') }}" class="brand-logo">
                         Quotes for Fun
                     </a>
                     <a href="#" data-activates="nav-drawer" class="button-collapse">
                         <i class="material-icons">menu</i>
                     </a>
                     <ul class="side-nav fixed white" id="nav-drawer">
-                        <li><div class="userView">
-                            <div class="background">
-                                <img src="{{ url_for('static', filename='img/nav_back.jpg') }}">
+                        <li>
+                            <div class="userView">
+                                <div class="background">
+                                    <img src="{{ url_for('static', filename='img/nav_back.jpg') }}">
+                                </div>
+                                <a href="#!">
+                                    <img class="circle" alt="img">
+                                </a>
+                                <a href="#!">
+                                    <span class="white-text name">NAME</span>
+                                </a>
+                                <a href="#!">
+                                    <span class="white-text email">abc@xyz.com</span>
+                                </a>
                             </div>
-                            <a href="#!">
-                                <img class="circle" src="{}" alt="img">
-                            </a>
-                            <a href="#!">
-                                <span class="white-text name">NAME</span>
-                            </a>
-                            <a href="#!">
-                                <span class="white-text email">abc@xyz.com</span>
-                            </a>
-                        </div>
                         </li>
                         <li><a href="#!">LOGIN/LOGOUT</a></li>
-                        <li><div class="divider"></div></li>
-                        <li><div class="subheader">&nbsp;&nbsp;Sources</div></li>
+                        <li>
+                            <div class="divider"></div>
+                        </li>
+                        <li>
+                            <div class="subheader">&nbsp;&nbsp;Sources</div>
+                        </li>
+                        <li>
+                            <a href="{{ url_for('all_quotes') }}" class="waves-effect">All Quotes</a>
+                        </li>
                         {% for source in sources %}
                             <li>
-                                <a href="{{ url_for('qoutesForSource', src_id=source.id) }}" class="waves-effect">
+                                <a href="{{ url_for('quotes_for_source', src_id=source.id) }}" class="waves-effect">
                                     {{ source.name }}
                                 </a>
                             </li>
