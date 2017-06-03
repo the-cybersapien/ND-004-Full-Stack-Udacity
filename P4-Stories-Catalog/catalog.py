@@ -1,9 +1,9 @@
 from flask import Flask, request, redirect, url_for, flash, jsonify
 from flask import render_template
-from database_setup import Base, User, Source, Quote
-from sqlalchemy import create_engine, asc
+from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
+from database_setup import Base, Source, Quote
 
 app = Flask(__name__)
 
@@ -38,12 +38,14 @@ def qoutesJSON():
     qoutes = session.query(Quote).all()
     return jsonify(Qoutes=[qoute.serialize for qoute in qoutes])
 
+
 # JSON for qoutes from a specific source
 @app.route('/sources/<int:src_id>/qoutes/JSON')
 def qoutesFromSource(src_id):
     qoutes = session.query(Quote).filter_by(source_id=src_id).all()
     source = session.query(Source).filter_by(id=src_id).one()
-    return jsonify(Source=source.serialize,Qoutes=[q.serializeWOSource for q in qoutes])
+    return jsonify(Source=source.serialize, Qoutes=[q.serialize_without_source for q in qoutes])
+
 
 # JSON for a specific qoute
 @app.route('/qoutes/<int:q_id>/JSON')
@@ -59,7 +61,9 @@ def qouteJSON(q_id):
 @app.route('/qoutes')
 def allQoutes():
     qoutes = session.query(Quote).all()
-    return render_template('allQoutes.html', qoutes=qoutes)
+    sources = session.query(Source).all()
+    return render_template('qoutes.html', qoutes=qoutes, sources=sources)
+
 
 if __name__ == '__main__':
     app.secret_key = 'super_secret_key'

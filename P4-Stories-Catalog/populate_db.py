@@ -71,7 +71,7 @@ session.commit()
 
 qoute4 = Quote(title="Interogation",
                content="Felicity: \"How do you normally get information from "
-                       "criminals?\"<br>Olliver: \"I find the person, and then I put the fear "
+                       "criminals?\"\nOliver: \"I find the person, and then I put the fear "
                        "of God into them until they talk. But we can try your way.\"",
                author_id=usr2.id,
                source_id=src2.id)

@@ -1,12 +1,9 @@
 # ORM using SQLAlchemy
 
 from sqlalchemy import Column, ForeignKey, Integer, String, DateTime
-
-from sqlalchemy.ext.declarative import declarative_base
-
-from sqlalchemy.orm import relationship
-
 from sqlalchemy import create_engine
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 
 Base = declarative_base()
@@ -31,6 +28,7 @@ class User(Base):
             'id': self.id,
             'name': self.name
         }
+
 
 class Source(Base):
     __tablename__ = 'source'
@@ -77,7 +75,7 @@ class Quote(Base):
         }
 
     @property
-    def serializeWOSource(self):
+    def serialize_without_source(self):
         """Serialized JSON without the source to prevent redundancy"""
         return {
             'title': self.title,
