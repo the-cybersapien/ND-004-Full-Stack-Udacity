@@ -1,4 +1,4 @@
-{% extends 'main.html' %}
+{% extends "main.html" %}
 {% block content %}
     {% include "header.html" %}
     <main>
@@ -6,26 +6,30 @@
             <div class="row">
                 <div class="card white lighten-2 col s12">
                     <div class="card-content black-text">
-                        <span class="card-title">Add a new Quote</span>
-                        <form action="{{ url_for('new_quote') }}" method="post">
+                        <span class="card-title">Edit {{ quote.title }}</span>
+                        <form action="{{ url_for('edit_quote', q_id=quote.id) }}" method="post">
                             <div class="row">
                                 <div class="input-field col s12">
-                                    <input id="q_title" type="text" name="q_title">
+                                    <input id="q_title" type="text" name="q_title" value="{{ quote.title }}">
                                     <label for="q_title">Title</label>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="input-field col s12">
-                                    <textarea id="q_content" name="q_content" class="materialize-textarea"></textarea>
+                                    <textarea id="q_content" name="q_content" class="materialize-textarea">{{ quote.content }}</textarea>
                                     <label for="q_content">Content</label>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="input-field col s12 m6">
                                     <select name="src_id">
-                                        <option name="src_id" value="" disabled selected>Choose the Source</option>
+                                        <option value="" disabled>Choose the Source</option>
                                         {% for source in sources %}
-                                            <option name="src_id" value="{{ source.id }}">{{ source.name }}</option>
+                                            <option name="src_id" value="{{ source.id }}"
+                                                    {% if quote.source_id == source.id %}
+                                                        selected
+                                                    {% endif %}
+                                            >{{ source.name }}</option>
                                         {% endfor %}
                                     </select>
                                     <label>Choose the source</label>
@@ -48,5 +52,4 @@
             </div>
         </div>
     </main>
-
 {% endblock %}

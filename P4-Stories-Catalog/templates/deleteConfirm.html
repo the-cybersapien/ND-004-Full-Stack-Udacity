@@ -1,0 +1,27 @@
+{% extends "main.html" %}
+{% block content %}
+    {% include "header.html" %}
+    <main class="container">
+    <div class="row">
+        <div class="card white lighten-2 col s12 offset-m3 m6">
+            <div class="card-content black-text">
+            <!-- Since this only shows a confirmation box, box the Sources and the Quotes can be managed with a conditional -->
+                <p class="card-title">Are you Sure you want to delete the
+                    {% if quote != None %}
+                        Quote "{{ quote.title }}"
+                        ?</p>
+                    <form action="{{ url_for('delete_quote',q_id=quote.id) }}" method="post">
+                    {% elif source != None %}
+                        Source "{{ source.name }}"
+                        ?</p>
+                    <form action="{{ url_for('delete_source',src_id=source.id) }}" method="post">
+                    {% endif %}
+                    <button type="submit" class="btn red">DELETE</button>
+                    <a href="{{ url_for('all_quotes') }}" class="btn">cancel</a>
+                </form>
+            </div>
+        </div>
+    </div>
+    </main>
+
+{% endblock %}

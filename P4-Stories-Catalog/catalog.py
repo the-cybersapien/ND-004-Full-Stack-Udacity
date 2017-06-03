@@ -54,9 +54,11 @@ def quoteJSON(q_id):
     return jsonify(Quote=quote.serialize)
 
 
-#################################
-#          HTML end points      #
-#################################
+"""
+    HTML end points for the app
+    Since the app is designed in a manner that sources are always displayed in the Nav Bar,
+    All the render template functions will be having a sources parameter containing a list of sources
+"""
 @app.route('/')
 @app.route('/quotes')
 def all_quotes():
@@ -86,6 +88,32 @@ def newSource():
         sources = session.query(Source).all()
         return render_template('newSource.html', sources=sources)
 
+@app.route('/source/edit/<int:src_id>', methods=['GET', 'POST'])
+def edit_source(src_id):
+    source = session.query(Source).filter_by(id=src_id).one()
+    if request.method == 'POST':
+        source.name = request.form['source_name']
+        session.add(source)
+        session.commit()
+        flash("Source Updated Successfully!")
+        return redirect(url_for('all_quotes'))
+    else:
+        sources = session.query(Source).all()
+        return render_template('editSource.html', source=source, sources=sources)
+
+
+@app.route('/source/delete/<int:src_id>', methods=['GET', 'POST'])
+def delete_source(src_id):
+    source = session.query(Source).filter_by(id=src_id).one()
+    if request.method == 'POST':
+        session.delete(source)
+        session.commit()
+        flash("Source successfully deleted")
+        return redirect(url_for('all_quotes'))
+    else:
+        sources = session.query(Source).all()
+        return render_template('deleteConfirm.html', source=source, sources=sources, quote=None)
+
 
 @app.route('/quote/new', methods=['GET', 'POST'])
 def new_quote():
@@ -100,6 +128,38 @@ def new_quote():
     else:
         sources = session.query(Source).all()
         return render_template('newQuote.html', sources=sources)
+
+
+@app.route('/quote/edit/<int:q_id>', methods=['GET', 'POST'])
+def edit_quote(q_id):
+    quote = session.query(Quote).filter_by(id=q_id).one()
+    if request.method == 'POST':
+        if request.form['q_title']:
+            quote.title = request.form['q_title']
+        if request.form['q_content']:
+            quote.content = request.form['q_content']
+        if request.form['src_id']:
+            quote.source_id = request.form['src_id']
+        session.add(quote)
+        session.commit()
+        flash('Quote updated successfully!')
+        return redirect(url_for('all_quotes'))
+    else:
+        sources = session.query(Source).all()
+        return render_template('editQuote.html', quote=quote, sources=sources)
+
+
+@app.route('/quote/delete/<int:q_id>', methods=['GET', 'POST'])
+def delete_quote(q_id):
+    quote = session.query(Quote).filter_by(id=q_id).one()
+    if request.method == 'POST':
+        session.delete(quote)
+        session.commit()
+        flash("Quote Successfully Deleted!")
+        return redirect(url_for('all_quotes'))
+    else:
+        sources = session.query(Source).all()
+        return render_template('deleteConfirm.html', quote=quote, sources=sources, source=None)
 
 
 if __name__ == '__main__':
