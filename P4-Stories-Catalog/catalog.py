@@ -65,6 +65,27 @@ def allQoutes():
     return render_template('qoutes.html', qoutes=qoutes, sources=sources)
 
 
+@app.route('/source/<int:src_id>/qoutes')
+@app.route('/source/<int:src_id>')
+def qoutesForSource(src_id):
+    source = session.query(Source).filter_by(id=src_id).one()
+    sources = session.query(Source).all()
+    qoutes = session.query(Quote).filter_by(source_id=src_id).all()
+    return render_template('qoutes.html', qoutes=qoutes, source=source, sources=sources)
+
+
+@app.route('/source/new', methods=['GET', 'POST'])
+def newSource():
+    if request.method == 'POST':
+        newSRC = Source(name=request.form['source_name'])
+        session.add(newSRC)
+        session.commit()
+        flash('New source %s Added Successfully!' % newSRC.name)
+        return redirect(url_for('allQoutes'))
+    else:
+        sources = session.query(Source).all()
+        return render_template('newSource.html', sources=sources)
+
 if __name__ == '__main__':
     app.secret_key = 'super_secret_key'
     app.debug = True
