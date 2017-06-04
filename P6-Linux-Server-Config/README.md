@@ -5,12 +5,12 @@
 
 The server is a free-tier Amazon EC2 instance with a 100% uptime.
 
-* Public IP Address: 35.154.33.179
+* Public IP Address: 35.154.109.14
 * To view the live version with Google authentication:
   ```
   Google Does not allow the use of public IP in client ID
-  http://35.154.33.179.xip.io
-  http://ec2-35-154-33-179.ap-south-1.compute.amazonaws.com
+  http://35.154.109.14.xip.io
+  http://ec2-35-154-109-14.ap-south-1.compute.amazonaws.com
 
   ```
 * Accessible SSH port: 2200
