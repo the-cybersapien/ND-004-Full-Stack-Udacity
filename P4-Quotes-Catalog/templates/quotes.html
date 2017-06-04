@@ -1,0 +1,49 @@
+{% extends "main.html" %}
+{% block content %}
+    {% include "header.html" %}
+    <main>
+        <div class="container">
+            <div class="row">
+                {% for quote in quotes %}
+                    <div class="col s12 l4">
+                        <div class="card white lighten-2 quote-card">
+                            <div class="card-content black-text">
+                                <span class="card-title"><strong>{{ quote.title }}</strong></span>
+                                <p class="text">{{ quote.content }}</p>
+                                <div class="row">
+                                    <span> -{{ quote.author.name }}</span>
+                                    <span class="right"> -{{ quote.source.name }}</span>
+                                </div>
+                            </div>
+                            {% if 'credentials' in login_session %}
+                            <div class="card-action">
+                                <a href="{{ url_for('edit_quote', q_id=quote.id) }}"> EDIT </a>
+                                <a href="{{ url_for('delete_quote', q_id=quote.id) }}" class="right"> DELETE </a>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="fixed-action-btn">
+                <a class="btn-floating btn-large">
+                    <i class="large material-icons">add</i>
+                </a>
+                <ul>
+                    <li>
+                        <a class="btn-floating red waves-effect tooltipped btn-add"
+                           data-position="left"
+                           data-delay="10"
+                           data-tooltip="New Quote"
+                           href="{{ url_for('new_quote') }}">Q</a>
+                        <a class="btn-floating blue waves-effect tooltipped btn-add"
+                           data-position="left"
+                           data-delay="10"
+                           data-tooltip="New Source"
+                           href="{{ url_for('new_source') }}">S</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </main>
+{% endblock %}

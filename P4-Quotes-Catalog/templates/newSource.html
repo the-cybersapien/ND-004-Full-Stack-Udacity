@@ -1,0 +1,30 @@
+{% extends "main.html" %}
+{% block content %}
+    {% include "header.html" %}
+    <main>
+        <div class="container">
+            <div class="row">
+                <div class="col s12">
+                    <div class="card white lighten-2">
+                        <div class="card-content black-text">
+                            <span class="card-title">Add a new Source</span>
+                            <form action="#" method="post">
+                                <div class="row">
+                                    <div class="input-field col s12">
+                                        <input id="src_name" type="text" name="source_name">
+                                        <label for="src_name">Source Name</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <button type="submit" class="waves-effect waves-light btn">
+                                        SUBMIT<i class="material-icons right">send</i>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock %}

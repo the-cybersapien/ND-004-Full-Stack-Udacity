@@ -1,0 +1,55 @@
+{% extends "main.html" %}
+{% block content %}
+    {% include "header.html" %}
+    <main>
+        <div class="container">
+            <div class="row">
+                <div class="card white lighten-2 col s12">
+                    <div class="card-content black-text">
+                        <span class="card-title">Edit {{ quote.title }}</span>
+                        <form action="{{ url_for('edit_quote', q_id=quote.id) }}" method="post">
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <input id="q_title" type="text" name="q_title" value="{{ quote.title }}">
+                                    <label for="q_title">Title</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <textarea id="q_content" name="q_content" class="materialize-textarea">{{ quote.content }}</textarea>
+                                    <label for="q_content">Content</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s12 m6">
+                                    <select name="src_id">
+                                        <option value="" disabled>Choose the Source</option>
+                                        {% for source in sources %}
+                                            <option name="src_id" value="{{ source.id }}"
+                                                    {% if quote.source_id == source.id %}
+                                                        selected
+                                                    {% endif %}
+                                            >{{ source.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <label>Choose the source</label>
+                                </div>
+                                <div class="input-field col s12 m6">
+                                    <a href="{{ url_for('new_source') }}" class="btn-flat waves-effect waves-teal"
+                                       style="vertical-align: baseline;">Add a new source</a>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col right">
+                                    <button class="btn waves-effect waves-light" type="submit" name="action">
+                                        SUBMIT <i class="material-icons right">send</i>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock %}
