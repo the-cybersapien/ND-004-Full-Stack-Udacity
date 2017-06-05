@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Neighborhood Map</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="css/materialize.min.css" rel="stylesheet">
+    <link href="css/styles.css" rel="stylesheet">
+</head>
+<body>
+<header>
+    <nav>
+        <div class="nav-wrapper teal">
+            <a href="#" class="brand-logo center">Places around <span data-bind="text: loc">You</span></a>
+        </div>
+    </nav>
+</header>
+<main>
+    <!-- A Preloader until the user gives location permissions and map is loaded -->
+    <div class="preloader-div center">
+        <div class="preloader-wrapper big active">
+            <div class="spinner-layer spinner-blue-only">
+                <div class="circle-clipper left">
+                    <div class="circle"></div>
+                </div>
+                <div class="gap-patch">
+                    <div class="circle"></div>
+                </div>
+                <div class="circle-clipper right">
+                    <div class="circle"></div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <span>Please give location permissions to continue</span>
+        </div>
+    </div>
+    <div class="container">
+        <!-- To display error in map or 4Square -->
+        <div class="row">
+            <div class="col s12">
+                    <span class="center" style="width: 100%;" id="errorSpan" data-bind="text: errorDisplay"></span>
+            </div>
+        </div>
+        <div class="row">
+            <!-- The search bar for filtering out our results -->
+            <div class="col s12 m4">
+                <div style="width: 100%;" class="input-field inline">
+                    <input id="filterText" type="text" data-bind="value: filterText, valueUpdate: 'afterkeydown', event: {keyup: applyFilter}">
+                    <label for="filterText">Filter the list...</label>
+                </div>
+
+                <!-- List generated with KO bindings -->
+                <ul class="collection" data-bind="foreach: placesList">
+                    <li class="collection-item" data-bind="text: name, visible: show, click: $parent.setSelected, css: {active: selected}"></li>
+                </ul>
+            </div>
+
+            <!-- Div to display the Google Map -->
+            <div class="col s12 m8">
+                <div id="map"></div>
+            </div>
+        </div>
+    </div>
+</main>
+
+
+<!-- Scripts for the working of the app -->
+<script
+        src="https://code.jquery.com/jquery-3.2.1.min.js"
+        integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+        crossorigin="anonymous"></script>
+<script src="js/knockout-3.4.2.js"></script>
+<script src="js/materialize.min.js"></script>
+<script src="js/app.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD5RpHevyBpN-HAtopJxlMQBNqbtx4nOMQ&callback=initMap" onerror="error()" async defer></script>
+</body>
+</html>
