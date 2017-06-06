@@ -111,6 +111,7 @@ var ViewModel = function (lat, lng) {
     self.setAllVisible = function (doShow) {
         for (var i = 0; i < self.placesList().length; i++){
             self.placesList()[i].show(doShow);
+            self.placesList()[i].setVisible(true);
         }
     };
     self.applyFilter = function () {
@@ -123,8 +124,10 @@ var ViewModel = function (lat, lng) {
             for (var i = 0; i < self.placesList().length; i++){
                 if (self.placesList()[i].name.toLowerCase().indexOf(currentFilter) > -1) {
                     self.placesList()[i].show(true);
+                    self.placesList()[i].setVisible(true);
                 } else {
                     self.placesList()[i].show(false);
+                    self.placesList()[i].setVisible(false);
                 }
             }
         }
