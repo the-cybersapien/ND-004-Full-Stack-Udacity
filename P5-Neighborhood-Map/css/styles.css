@@ -1,0 +1,23 @@
+.preloader-div {
+    height: 100%;
+    width: 100%;
+    z-index:  1500;
+    background: 50% 50% rgb(255, 255, 255);
+    position: fixed;
+    vertical-align: middle;
+    left: 0;
+    top: 0;
+    align-items: center;
+    justify-content: center;
+}
+
+.preloader-div > * {
+    vertical-align: middle;
+}
+
+#map {
+    min-height: 500px;
+    height: auto;
+    max-height: 950px;
+}
+
